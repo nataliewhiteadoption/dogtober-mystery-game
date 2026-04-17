@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dog Toy Mystery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      padding: 20px;
+      background-color: #f4f4f4;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 400px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    button {
+      padding: 15px;
+      margin: 10px 0;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: #ff914d;
+      color: white;
+    }
+    .suspect {
+      background-color: #eee;
+      color: black;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card" id="start">
+  <h2>🚨 Dog Toy Mystery 🚨</h2>
+  <p>A stuffed toy has been DESTROYED.</p>
+  <p>Can you find the culprit?</p>
+  <button onclick="next('clue1')">Start Investigation</button>
+</div>
+
+<div class="card" id="clue1" style="display:none;">
+  <h2>🔎 Clue #1</h2>
+  <p>The culprit LOVES toys.</p>
+  <button onclick="next('clue2')">Next Clue</button>
+</div>
+
+<div class="card" id="clue2" style="display:none;">
+  <h2>🔎 Clue #2</h2>
+  <p>This dog had serious zoomies earlier.</p>
+  <button onclick="next('clue3')">Next Clue</button>
+</div>
+
+<div class="card" id="clue3" style="display:none;">
+  <h2>🔎 Final Clue</h2>
+  <p>The culprit was spotted near the crime scene.</p>
+  <button onclick="next('suspects')">Make Your Guess</button>
+</div>
+
+<div class="card" id="suspects" style="display:none;">
+  <h2>🐶 Who Did It?</h2>
+
+  <button class="suspect" onclick="wrong('Dog 1')">Dog 1</button>
+  <button class="suspect" onclick="wrong('Dog 2')">Dog 2</button>
+  <button class="suspect" onclick="correct('Dog 3')">Dog 3</button>
+  <button class="suspect" onclick="wrong('Dog 4')">Dog 4</button>
+</div>
+
+<div class="card" id="wrong" style="display:none;">
+  <h2>❌ Not Quite!</h2>
+  <p id="wrongText"></p>
+  <button onclick="next('suspects')">Try Again</button>
+</div>
+
+<div class="card" id="correct" style="display:none;">
+  <h2>🎉 CASE SOLVED 🎉</h2>
+  <p id="correctText"></p>
+  <p>Come meet them at the adoption area!</p>
+</div>
+
+<script>
+function next(id) {
+  document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+}
+
+function wrong(name) {
+  document.getElementById('wrongText').innerText =
+    name + " insists they are innocent… but we’re not convinced 😅";
+  next('wrong');
+}
+
+function correct(name) {
+  document.getElementById('correctText').innerText =
+    "The culprit is " + name + " 🐾";
+  next('correct');
+}
+</script>
+
+</body>
+</html>
