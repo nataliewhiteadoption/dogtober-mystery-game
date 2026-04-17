@@ -1,105 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Dog Toy Mystery</title>
+  <title>Dogtober Mystery Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- 🎉 Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 20px;
-      background-color: #f4f4f4;
+      padding: 15px;
+      background: #f4f4f4;
     }
+
     .card {
       background: white;
       padding: 20px;
       margin: 20px auto;
       border-radius: 12px;
-      max-width: 400px;
+      max-width: 420px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
+
     button {
-      padding: 15px;
-      margin: 10px 0;
+      padding: 12px;
+      margin: 8px 0;
       width: 100%;
       border: none;
       border-radius: 8px;
       font-size: 16px;
-      background-color: #ff914d;
+      background: #ff914d;
       color: white;
+      cursor: pointer;
+      transition: 0.2s;
     }
-    .suspect {
-      background-color: #eee;
-      color: black;
+
+    button:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
 
 <body>
 
+<!-- START -->
 <div class="card" id="start">
   <h2>🚨 Dog Toy Mystery 🚨</h2>
-  <p>A stuffed toy has been DESTROYED.</p>
-  <p>Can you find the culprit?</p>
+  <p>A stuffed toy has been DESTROYED at Dogtober Fest...</p>
+  <p>Can YOU solve the mystery?</p>
   <button onclick="next('clue1')">Start Investigation</button>
 </div>
 
+<!-- CLUES -->
 <div class="card" id="clue1" style="display:none;">
   <h2>🔎 Clue #1</h2>
-  <p>The culprit LOVES toys.</p>
+  <p>The culprit LOVES stuffed toys.</p>
   <button onclick="next('clue2')">Next Clue</button>
 </div>
 
 <div class="card" id="clue2" style="display:none;">
   <h2>🔎 Clue #2</h2>
-  <p>This dog had serious zoomies earlier.</p>
+  <p>The dog had BIG zoomies earlier.</p>
   <button onclick="next('clue3')">Next Clue</button>
 </div>
 
 <div class="card" id="clue3" style="display:none;">
-  <h2>🔎 Final Clue</h2>
-  <p>The culprit was spotted near the crime scene.</p>
-  <button onclick="next('suspects')">Make Your Guess</button>
+  <h2>🔎 Clue #3</h2>
+  <p>The culprit is NOT the quiet one.</p>
+  <button onclick="next('clue4')">Next Clue</button>
 </div>
 
-<div class="card" id="suspects" style="display:none;">
+<div class="card" id="clue4" style="display:none;">
+  <h2>🔎 Clue #4</h2>
+  <p>A witness saw them near the crime scene.</p>
+  <button onclick="next('clue5')">Next Clue</button>
+</div>
+
+<div class="card" id="clue5" style="display:none;">
+  <h2>🔎 Clue #5</h2>
+  <p>The culprit is under 3 years old.</p>
+  <button onclick="next('clue6')">Next Clue</button>
+</div>
+
+<div class="card" id="clue6" style="display:none;">
+  <h2>🔎 FINAL CLUE</h2>
+  <p>This dog cannot resist stuffing and chaos.</p>
+  <button onclick="next('guess')">Make Your Guess</button>
+</div>
+
+<!-- GUESS -->
+<div class="card" id="guess" style="display:none;">
   <h2>🐶 Who Did It?</h2>
 
-  <button class="suspect" onclick="wrong('Dog 1')">Dog 1</button>
-  <button class="suspect" onclick="wrong('Dog 2')">Dog 2</button>
-  <button class="suspect" onclick="correct('Dog 3')">Dog 3</button>
-  <button class="suspect" onclick="wrong('Dog 4')">Dog 4</button>
+  <button onclick="wrong('Riggs')">Riggs</button>
+  <button onclick="wrong('Foxy')">Foxy</button>
+  <button onclick="correct('Lucia')">Lucia</button>
+  <button onclick="wrong('Moo')">Moo</button>
 </div>
 
+<!-- WRONG -->
 <div class="card" id="wrong" style="display:none;">
   <h2>❌ Not Quite!</h2>
   <p id="wrongText"></p>
-  <button onclick="next('suspects')">Try Again</button>
+  <button onclick="next('guess')">Try Again</button>
 </div>
 
+<!-- CORRECT -->
 <div class="card" id="correct" style="display:none;">
   <h2>🎉 CASE SOLVED 🎉</h2>
   <p id="correctText"></p>
-  <p>Come meet them at the adoption area!</p>
+  <p>Come meet them at Dogtober Fest adoption area 🐾</p>
 </div>
 
 <script>
+
 function next(id) {
-  document.querySelectorAll('.card').forEach(card => card.style.display = 'none');
+  document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
   document.getElementById(id).style.display = 'block';
 }
 
 function wrong(name) {
+  let responses = {
+    "Riggs": "Riggs insists he was 'innocently observing chaos' 😇",
+    "Foxy": "Foxy vanished suspiciously fast... hmm 🦊",
+    "Moo": "Moo is offended and demands snacks as compensation 🐄"
+  };
+
   document.getElementById('wrongText').innerText =
-    name + " insists they are innocent… but we’re not convinced 😅";
+    responses[name] || "That dog looks innocent... but do they? 👀";
+
   next('wrong');
 }
 
 function correct(name) {
   document.getElementById('correctText').innerText =
-    "The culprit is " + name + " 🐾";
+    "All evidence points to... " + name + " 🐾";
+
+  // 🎉 CONFETTI
+  confetti({
+    particleCount: 180,
+    spread: 90,
+    origin: { y: 0.6 }
+  });
+
   next('correct');
 }
+
 </script>
 
 </body>
