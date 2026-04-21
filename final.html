@@ -1,101 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Final Case</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<h2>🎉 CASE CLOSED 🎉</h2>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<p>The evidence has been reviewed…</p>
 
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      padding: 20px;
-      background: radial-gradient(circle, #2b1b3a, #000);
-      color: white;
-    }
+<p>The witnesses have spoken…</p>
 
-    .card {
-      background: rgba(30,30,30,0.95);
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 420px;
-      margin: auto;
-      border: 1px solid #ff914d;
-    }
+<p>The chaos has been analyzed…</p>
 
-    .suspect {
-      margin: 10px 0;
-      cursor: pointer;
-    }
+<h1>🐾 LUCIA IS GUILTY 🐾</h1>
 
-    .suspect img {
-      width: 100%;
-      border-radius: 10px;
-    }
+<p>Charges include:</p>
 
-    h2 { color: #ffb347; }
-  </style>
-</head>
+<p>🎃 Destruction of Pumpkin Property</p>
+<p>🐾 Excessive Zoomies</p>
+<p>💥 Unlawful Cuteness</p>
 
-<body>
-
-<div class="card" id="guess">
-  <h2>🐾 IDENTIFY THE CULPRIT</h2>
-
-  <div class="suspect" onclick="wrong('Riggs')">
-    <img src="PASTE_RIGGS_IMAGE">
-    <p>Riggs</p>
-  </div>
-
-  <div class="suspect" onclick="wrong('Foxy')">
-    <img src="PASTE_FOXY_IMAGE">
-    <p>Foxy</p>
-  </div>
-
-  <div class="suspect" onclick="correct('Lucia')">
-    <img src="PASTE_LUCIA_IMAGE">
-    <p>Lucia</p>
-  </div>
-
-  <div class="suspect" onclick="wrong('Moo')">
-    <img src="PASTE_MOO_IMAGE">
-    <p>Moo</p>
-  </div>
-</div>
-
-<div class="card" id="result" style="display:none;">
-  <h2 id="title"></h2>
-  <p id="text"></p>
-</div>
-
-<audio id="bark">
-  <source src="https://www.soundjay.com/animal/dog-barking-01.mp3">
-</audio>
-
-<script>
-
-function wrong(name){
-  document.getElementById("bark").play();
-  document.getElementById("title").innerText = "❌ NOT THE CULPRIT";
-  document.getElementById("text").innerText = name + " protests their innocence... loudly.";
-
-  document.getElementById("guess").style.display="none";
-  document.getElementById("result").style.display="block";
-}
-
-function correct(name){
-  confetti({ particleCount: 250, spread: 120, origin: { y: 0.6 } });
-
-  document.getElementById("title").innerText = "🎉 CASE CLOSED 🎉";
-  document.getElementById("text").innerText =
-    "All evidence points to " + name + " 🐾";
-
-  document.getElementById("guess").style.display="none";
-  document.getElementById("result").style.display="block";
-}
-
-</script>
-
-</body>
-</html>
+<p>Sentence: Immediate adoption recommended.</p>
