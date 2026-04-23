@@ -1,17 +1,93 @@
-<h2>🎉 CASE CLOSED 🎉</h2>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Final Guess</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<p>The evidence has been reviewed…</p>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-<p>The witnesses have spoken…</p>
+<style>
+body{
+  font-family:Georgia;
+  background:radial-gradient(circle,#2b1b3a,#000);
+  color:#f5e6d3;
+  text-align:center;
+  padding:20px;
+}
 
-<p>The chaos has been analyzed…</p>
+.card{
+  background:#111;
+  padding:20px;
+  border-radius:12px;
+  border:2px solid orange;
+  max-width:420px;
+  margin:auto;
+}
 
-<h1>🐾 LUCIA IS GUILTY 🐾</h1>
+.dog{
+  margin:10px;
+  cursor:pointer;
+}
 
-<p>Charges include:</p>
+img{
+  width:100%;
+  border-radius:10px;
+}
+</style>
+</head>
 
-<p>🎃 Destruction of Pumpkin Property</p>
-<p>🐾 Excessive Zoomies</p>
-<p>💥 Unlawful Cuteness</p>
+<body>
 
-<p>Sentence: Immediate adoption recommended.</p>
+<div class="card" id="game">
+<h2>🐾 WHO DID IT?</h2>
+
+<div class="dog" onclick="wrong('Riggs')">
+<img src="PASTE_RIGGS_IMAGE_URL">
+<p>Riggs</p>
+</div>
+
+<div class="dog" onclick="wrong('Foxy')">
+<img src="PASTE_FOXY_IMAGE_URL">
+<p>Foxy</p>
+</div>
+
+<div class="dog" onclick="correct()">
+<img src="PASTE_LUCIA_IMAGE_URL">
+<p>Lucia</p>
+</div>
+
+<div class="dog" onclick="wrong('Moo')">
+<img src="PASTE_MOO_IMAGE_URL">
+<p>Moo</p>
+</div>
+</div>
+
+<div class="card" id="result" style="display:none;"></div>
+
+<audio id="bark">
+<source src="https://www.soundjay.com/animal/dog-barking-01.mp3">
+</audio>
+
+<script>
+function wrong(name){
+document.getElementById("bark").play();
+document.getElementById("game").style.display="none";
+document.getElementById("result").style.display="block";
+
+document.getElementById("result").innerHTML =
+"<h2>❌ Not Quite!</h2><p>"+name+" says: 'I would NEVER… okay maybe a little.'</p>";
+}
+
+function correct(){
+confetti({particleCount:300,spread:140});
+
+document.getElementById("game").style.display="none";
+document.getElementById("result").style.display="block";
+
+document.getElementById("result").innerHTML =
+"<h2>🎉 CASE CLOSED 🎉</h2><p>Lucia did it! Chaos confirmed!</p>";
+}
+</script>
+
+</body>
+</html>
