@@ -14,7 +14,6 @@ body{
   text-align:center;
   padding:20px;
 }
-
 .card{
   background:#111;
   padding:20px;
@@ -23,15 +22,24 @@ body{
   max-width:420px;
   margin:auto;
 }
-
 .dog{
   margin:10px;
   cursor:pointer;
+  position:relative;
 }
-
-img{
-  width:100%;
-  border-radius:10px;
+img{width:100%;border-radius:10px;}
+.eliminated{opacity:0.3;filter:grayscale(100%);}
+.eliminated::after{
+  content:"❌"; font-size:60px; position:absolute; top:30%; left:40%;
+}
+button{
+  margin:5px; padding:10px;
+  background:orange; border:none; border-radius:6px; font-weight:bold;
+}
+.badge{
+  border:3px dashed gold;
+  padding:15px;
+  margin-top:15px;
 }
 </style>
 </head>
@@ -39,27 +47,30 @@ img{
 <body>
 
 <div class="card" id="game">
-<h2>🐾 WHO DID IT?</h2>
+<h2>🕵️ BUILD YOUR CASE</h2>
+<p id="progress"></p>
 
-<div class="dog" onclick="wrong('Riggs')">
-<img src="PASTE_RIGGS_IMAGE_URL">
-<p>Riggs</p>
+<div class="dog" onclick="eliminate(this)">
+<img src="PASTE_RIGGS_IMAGE_URL"><p>Riggs</p>
 </div>
 
-<div class="dog" onclick="wrong('Foxy')">
-<img src="PASTE_FOXY_IMAGE_URL">
-<p>Foxy</p>
+<div class="dog" onclick="eliminate(this)">
+<img src="PASTE_FOXY_IMAGE_URL"><p>Foxy</p>
 </div>
 
-<div class="dog" onclick="correct()">
-<img src="PASTE_LUCIA_IMAGE_URL">
-<p>Lucia</p>
+<div class="dog" onclick="selectDog('Lucia')">
+<img src="PASTE_LUCIA_IMAGE_URL"><p>Lucia</p>
 </div>
 
-<div class="dog" onclick="wrong('Moo')">
-<img src="PASTE_MOO_IMAGE_URL">
-<p>Moo</p>
+<div class="dog" onclick="eliminate(this)">
+<img src="PASTE_MOO_IMAGE_URL"><p>Moo</p>
 </div>
+
+<p>👇 Choose your suspect:</p>
+<button onclick="selectDog('Riggs')">Riggs</button>
+<button onclick="selectDog('Foxy')">Foxy</button>
+<button onclick="selectDog('Lucia')">Lucia</button>
+<button onclick="selectDog('Moo')">Moo</button>
 </div>
 
 <div class="card" id="result" style="display:none;"></div>
@@ -69,23 +80,56 @@ img{
 </audio>
 
 <script>
-function wrong(name){
-document.getElementById("bark").play();
-document.getElementById("game").style.display="none";
-document.getElementById("result").style.display="block";
 
-document.getElementById("result").innerHTML =
-"<h2>❌ Not Quite!</h2><p>"+name+" says: 'I would NEVER… okay maybe a little.'</p>";
+// show progress
+let visited = parseInt(localStorage.getItem("visited") || "1");
+document.getElementById("progress").innerHTML =
+"🧭 Clues found: " + (visited-1) + " / 5";
+
+function eliminate(el){
+  el.classList.toggle("eliminated");
 }
 
-function correct(){
-confetti({particleCount:300,spread:140});
+function selectDog(name){
+  let attempts = parseInt(localStorage.getItem("attempts") || "0") + 1;
+  localStorage.setItem("attempts", attempts);
 
-document.getElementById("game").style.display="none";
-document.getElementById("result").style.display="block";
+  if(name === "Lucia"){
+    confetti({particleCount:300,spread:140});
 
-document.getElementById("result").innerHTML =
-"<h2>🎉 CASE CLOSED 🎉</h2><p>Lucia did it! Chaos confirmed!</p>";
+    let scoreMsg = attempts === 1 ? "Perfect Detective 🧠"
+                 : attempts <= 2 ? "Great Work 👏"
+                 : "You cracked it eventually 😅";
+
+    document.getElementById("game").style.display="none";
+    document.getElementById("result").style.display="block";
+
+    document.getElementById("result").innerHTML =
+    "<h2>🎉 CASE CLOSED 🎉</h2>"+
+    "<h1>🐾 LUCIA DID IT 🐾</h1>"+
+    "<p>"+scoreMsg+"</p>"+
+    "<div class='badge'>🏆 Show this screen to claim your prize!</div>";
+
+  } else {
+    document.getElementById("bark").play();
+
+    let hint = attempts === 1 ? "⚡ Think about the zoomies clue..."
+             : attempts === 2 ? "👀 You're VERY close..."
+             : "🎃 Only one dog destroys toys like that...";
+
+    document.getElementById("game").style.display="none";
+    document.getElementById("result").style.display="block";
+
+    document.getElementById("result").innerHTML =
+    "<h2>❌ Not Quite!</h2><p>"+name+" says: 'Not me!'</p>"+
+    "<p>"+hint+"</p>"+
+    "<button onclick='retry()'>Try Again</button>";
+  }
+}
+
+function retry(){
+  document.getElementById("result").style.display="none";
+  document.getElementById("game").style.display="block";
 }
 </script>
 
